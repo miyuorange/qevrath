@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05080d" />
+  <meta name="description" content="QEVRATH — unified national-defense AI across air, land, sea, space and cyber." />
+  <title>QEVRATH — Advanced Defense AI</title>
+
+  <style>
+    :root{
+      --bg:#05080d;
+      --bg-2:#091019;
+      --panel:#0b121c;
+      --panel-2:#101923;
+      --line:rgba(255,255,255,.095);
+      --line-strong:rgba(255,255,255,.17);
+      --text:#f3f6f9;
+      --muted:#9aa7b5;
+      --muted-2:#687585;
+      --ice:#dff5ff;
+      --blue:#7cc8ff;
+      --blue-2:#3a86c9;
+      --glow:rgba(83,177,240,.18);
+      --success:#bceccf;
+      --max:1320px;
+      --radius:24px;
+      --radius-sm:16px;
+      --shadow:0 28px 70px rgba(0,0,0,.32);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 75% 7%, rgba(52,126,180,.09), transparent 27%),
+        radial-gradient(circle at 15% 25%, rgba(88,158,210,.05), transparent 25%),
+        var(--bg);
+      color:var(--text);
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+
+    ::selection{background:rgba(124,200,255,.24);color:#fff}
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    img{max-width:100%}
+
+    .shell{
+      width:min(calc(100% - 48px), var(--max));
+      margin-inline:auto;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      color:#bbd9ea;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:11px;
+      font-weight:750;
+    }
+    .eyebrow::before{
+      content:"";
+      width:22px;
+      height:1px;
+      background:linear-gradient(90deg,var(--blue),transparent);
+    }
+
+    .section{
+      padding:112px 0;
+      position:relative;
+    }
+
+    .section-header{
+      max-width:760px;
+      margin-bottom:48px;
+    }
+
+    h1,h2,h3,p{margin-top:0}
+    h1{
+      font-size:clamp(52px,7vw,104px);
+      line-height:.92;
+      letter-spacing:-.065em;
+      font-weight:560;
+      margin-bottom:28px;
+    }
+    h2{
+      font-size:clamp(38px,4.5vw,68px);
+      letter-spacing:-.05em;
+      line-height:1;
+      font-weight:560;
+      margin:18px 0 24px;
+    }
+    h3{
+      font-size:20px;
+      letter-spacing:-.025em;
+      font-weight:600;
+      margin-bottom:12px;
+    }
+    .lead{
+      max-width:720px;
+      font-size:clamp(17px,1.45vw,21px);
+      line-height:1.65;
+      color:#b3bfca;
+    }
+    .muted{color:var(--muted)}
+
+    /* NAV */
+    .nav-wrap{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:1000;
+      padding:14px 0;
+      transition:.25s ease;
+    }
+    .nav-wrap.scrolled{
+      background:rgba(5,8,13,.76);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      width:min(calc(100% - 48px), var(--max));
+      margin:auto;
+      display:grid;
+      grid-template-columns:220px 1fr 220px;
+      align-items:center;
+      min-height:58px;
+    }
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      gap:13px;
+      width:max-content;
+    }
+    .brand-symbol{
+      width:34px;
+      height:34px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 34px;
+    }
+    .brand-symbol svg{
+      width:34px;
+      height:34px;
+      overflow:visible;
+    }
+    .brand-symbol .q-ring{
+      fill:none;
+      stroke:rgba(231,245,253,.92);
+      stroke-width:1.15;
+      stroke-linecap:round;
+      stroke-dasharray:53 8;
+      transform-origin:18px 18px;
+      transform:rotate(-16deg);
+    }
+    .brand-symbol .q-tail{
+      fill:none;
+      stroke:rgba(231,245,253,.92);
+      stroke-width:1.15;
+      stroke-linecap:round;
+    }
+    .brand-symbol .q-axis{
+      fill:none;
+      stroke:rgba(124,200,255,.34);
+      stroke-width:.8;
+      stroke-linecap:round;
+    }
+    .wordmark{
+      font-weight:540;
+      letter-spacing:.245em;
+      font-size:14px;
+      white-space:nowrap;
+      color:#f1f6f9;
+    }
+    .e-mark{
+      width:.66em;
+      display:inline-grid;
+      gap:2.4px;
+      vertical-align:.12em;
+      margin:0 .03em 0 .015em;
+    }
+    .e-mark i{
+      display:block;
+      height:1px;
+      background:currentColor;
+      border-radius:2px;
+    }
+    .e-mark i:nth-child(2){width:78%}
+    .e-mark i:nth-child(3){width:92%}
+
+    .nav-links{
+      display:flex;
+      justify-content:center;
+      gap:30px;
+      color:#aeb8c2;
+      font-size:13px;
+    }
+    .nav-links a{transition:.2s}
+    .nav-links a:hover{color:#fff}
+    .nav-actions{display:flex;justify-content:flex-end}
+    .nav-cta{
+      border:1px solid var(--line-strong);
+      background:rgba(255,255,255,.035);
+      color:#eff8ff;
+      border-radius:999px;
+      padding:12px 17px;
+      font-size:12px;
+      letter-spacing:.05em;
+      transition:.2s;
+    }
+    .nav-cta:hover{
+      border-color:rgba(124,200,255,.55);
+      background:rgba(124,200,255,.08);
+    }
+
+    /* HERO */
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      padding:130px 0 70px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:56px 56px;
+      -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.75),transparent 85%);
+      mask-image:linear-gradient(to bottom,rgba(0,0,0,.75),transparent 85%);
+      pointer-events:none;
+    }
+    .orb{
+      position:absolute;
+      width:720px;
+      height:720px;
+      border-radius:50%;
+      right:-260px;
+      top:9%;
+      border:1px solid rgba(123,196,244,.13);
+      box-shadow:
+        0 0 0 90px rgba(124,200,255,.018),
+        0 0 0 180px rgba(124,200,255,.012),
+        0 0 180px rgba(64,156,220,.07);
+    }
+    .orb::before,.orb::after{
+      content:"";
+      position:absolute;
+      inset:10%;
+      border:1px solid rgba(124,200,255,.09);
+      border-radius:50%;
+    }
+    .orb::after{inset:27%}
+    .hero-grid{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);
+      align-items:end;
+      gap:70px;
+    }
+    .hero-kicker{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      margin-bottom:30px;
+      color:#bad9eb;
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .status-dot{
+      width:7px;
+      height:7px;
+      background:#a8ddff;
+      border-radius:50%;
+      box-shadow:0 0 18px rgba(124,200,255,.75);
+    }
+    .hero h1 span{
+      display:block;
+      color:#91a3b2;
+    }
+    .hero-copy{
+      max-width:680px;
+      color:#a9b5bf;
+      font-size:19px;
+      line-height:1.65;
+    }
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      margin-top:35px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border-radius:999px;
+      min-height:48px;
+      padding:0 20px;
+      border:1px solid transparent;
+      font-size:13px;
+      transition:.2s ease;
+    }
+    .btn-primary{
+      background:#e7f5fd;
+      color:#071019;
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 35px rgba(130,211,255,.14);
+    }
+    .btn-secondary{
+      border-color:var(--line-strong);
+      background:rgba(255,255,255,.025);
+      color:#e7edf2;
+    }
+    .btn-secondary:hover{
+      border-color:rgba(124,200,255,.45);
+      background:rgba(124,200,255,.055);
+    }
+
+    .hero-console{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(17,28,40,.7),rgba(7,13,20,.72));
+      border-radius:26px;
+      min-height:440px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .console-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:5px 4px 16px;
+      color:#91a0ac;
+      font-size:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .console-screen{
+      height:360px;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:18px;
+      background:
+        radial-gradient(circle at center, rgba(68,158,217,.11), transparent 35%),
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.022) 1px, transparent 1px),
+        #07101a;
+      background-size:auto,40px 40px,40px 40px,auto;
+      position:relative;
+      overflow:hidden;
+    }
+    .radar-ring{
+      position:absolute;
+      left:50%;
+      top:50%;
+      translate:-50% -50%;
+      border:1px solid rgba(124,200,255,.14);
+      border-radius:50%;
+    }
+    .r1{width:270px;height:270px}
+    .r2{width:190px;height:190px}
+    .r3{width:100px;height:100px}
+    .radar-line{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:135px;
+      height:1px;
+      transform-origin:0 50%;
+      background:linear-gradient(90deg,rgba(124,200,255,.55),transparent);
+      animation:sweep 7s linear infinite;
+    }
+    @keyframes sweep{to{transform:rotate(360deg)}}
+    .target{
+      position:absolute;
+      width:6px;
+      height:6px;
+      background:#cdefff;
+      border-radius:50%;
+      box-shadow:0 0 14px rgba(124,200,255,.9);
+    }
+    .t1{left:66%;top:31%}
+    .t2{left:35%;top:61%}
+    .t3{left:59%;top:68%}
+    .telemetry{
+      position:absolute;
+      inset:auto 18px 16px 18px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+    .telemetry div{
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(2,8,13,.64);
+      padding:11px;
+      border-radius:12px;
+    }
+    .telemetry small{display:block;color:#6f8190;font-size:8px;letter-spacing:.12em;text-transform:uppercase}
+    .telemetry strong{display:block;margin-top:5px;font-size:11px;font-weight:550;color:#d9e8f2}
+
+    .hero-stats{
+      margin-top:54px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .hero-stats div{
+      padding:24px 0;
+      border-right:1px solid var(--line);
+    }
+    .hero-stats div:last-child{border-right:0}
+    .hero-stats strong{
+      display:block;
+      font-size:14px;
+      font-weight:600;
+      margin-bottom:6px;
+    }
+    .hero-stats span{
+      color:#6f7d89;
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    /* INTRO */
+    .statement{
+      display:grid;
+      grid-template-columns:.75fr 1.25fr;
+      gap:80px;
+      align-items:start;
+    }
+    .statement-copy{
+      font-size:clamp(29px,3.3vw,51px);
+      line-height:1.13;
+      letter-spacing:-.045em;
+      font-weight:480;
+      color:#d9e1e8;
+    }
+    .statement-copy em{
+      color:#71808d;
+      font-style:normal;
+    }
+    .statement-side{
+      max-width:520px;
+      margin-left:auto;
+      color:#95a3af;
+      line-height:1.75;
+      font-size:15px;
+      padding-top:10px;
+    }
+
+    /* PLATFORM */
+    .platform-frame{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(13,22,32,.75),rgba(7,12,18,.55));
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .platform-top{
+      display:flex;
+      justify-content:space-between;
+      gap:30px;
+      padding:30px;
+      border-bottom:1px solid var(--line);
+    }
+    .platform-top p{max-width:620px;color:#8999a7;line-height:1.65;margin:0}
+    .architecture{
+      padding:42px 30px 30px;
+    }
+    .arch-row{
+      display:grid;
+      gap:12px;
+    }
+    .sources{grid-template-columns:repeat(6,1fr)}
+    .core{grid-template-columns:1fr}
+    .outputs{grid-template-columns:repeat(4,1fr)}
+    .arch-node{
+      border:1px solid var(--line);
+      border-radius:14px;
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:12px;
+      background:rgba(255,255,255,.018);
+      color:#c8d2da;
+      font-size:12px;
+    }
+    .arch-node.highlight{
+      min-height:132px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(110,193,245,.12), transparent 50%),
+        #0b1620;
+      border-color:rgba(124,200,255,.25);
+      font-size:24px;
+      letter-spacing:.06em;
+      color:#e9f7ff;
+    }
+    .arch-arrow{
+      height:52px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#5c6c78;
+      font-size:18px;
+    }
+    .arch-caption{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border-top:1px solid var(--line);
+      margin-top:30px;
+    }
+    .arch-caption div{padding:22px;border-right:1px solid var(--line)}
+    .arch-caption div:last-child{border-right:0}
+    .arch-caption small{display:block;color:#647584;text-transform:uppercase;letter-spacing:.12em;font-size:9px;margin-bottom:9px}
+    .arch-caption span{font-size:13px;color:#aebbc5;line-height:1.5}
+
+    /* MODULES */
+    .modules-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .module{
+      min-height:330px;
+      padding:30px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 100% 0%,rgba(80,169,228,.055),transparent 37%),
+        rgba(255,255,255,.017);
+      position:relative;
+      overflow:hidden;
+      transition:.25s ease;
+    }
+    .module:hover{
+      transform:translateY(-3px);
+      border-color:rgba(124,200,255,.25);
+      background:
+        radial-gradient(circle at 100% 0%,rgba(80,169,228,.085),transparent 40%),
+        rgba(255,255,255,.025);
+    }
+    .module-index{
+      color:#50606d;
+      font-size:10px;
+      letter-spacing:.16em;
+      margin-bottom:68px;
+    }
+    .module h3{font-size:24px;margin-bottom:8px}
+    .module-label{
+      color:#8fbfdc;
+      text-transform:uppercase;
+      letter-spacing:.11em;
+      font-size:9px;
+      margin-bottom:16px;
+    }
+    .module p{
+      color:#8998a5;
+      line-height:1.65;
+      font-size:14px;
+      margin-bottom:0;
+    }
+    .module::after{
+      content:"";
+      position:absolute;
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      border:1px solid rgba(124,200,255,.065);
+      right:-28px;
+      top:-24px;
+    }
+
+    /* DOMAINS */
+    .domains-layout{
+      display:grid;
+      grid-template-columns:.8fr 1.2fr;
+      gap:60px;
+      align-items:start;
+    }
+    .domain-tabs{
+      position:sticky;
+      top:120px;
+      display:grid;
+      gap:6px;
+    }
+    .domain-tab{
+      width:100%;
+      text-align:left;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.015);
+      color:#8997a3;
+      border-radius:14px;
+      padding:18px 19px;
+      transition:.2s;
+      display:flex;
+      justify-content:space-between;
+    }
+    .domain-tab.active,.domain-tab:hover{
+      background:#0c1721;
+      color:#eef7fb;
+      border-color:rgba(124,200,255,.23);
+    }
+    .domain-panels{
+      border:1px solid var(--line);
+      border-radius:26px;
+      min-height:600px;
+      background:
+        linear-gradient(180deg,rgba(11,21,31,.72),rgba(7,12,18,.65));
+      overflow:hidden;
+    }
+    .domain-panel{display:none;padding:38px}
+    .domain-panel.active{display:block}
+    .domain-visual{
+      height:280px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:18px;
+      margin-bottom:28px;
+      background:
+        radial-gradient(circle at 70% 25%,rgba(87,177,235,.12),transparent 18%),
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+        #071018;
+      background-size:auto,36px 36px,36px 36px,auto;
+      position:relative;
+      overflow:hidden;
+    }
+    .domain-visual::before{
+      content:"";
+      position:absolute;
+      width:220px;
+      height:220px;
+      border:1px solid rgba(124,200,255,.11);
+      border-radius:50%;
+      right:12%;
+      top:12%;
+      box-shadow:0 0 0 45px rgba(124,200,255,.015);
+    }
+    .domain-code{
+      position:absolute;
+      left:22px;bottom:20px;
+      font-size:10px;
+      color:#7390a2;
+      letter-spacing:.13em;
+      line-height:1.85;
+      white-space:pre;
+    }
+    .domain-panel h3{font-size:33px;margin-bottom:12px}
+    .domain-panel > p{color:#8e9ca8;line-height:1.7;max-width:620px}
+    .cap-list{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:25px;
+    }
+    .cap-list span{
+      border-top:1px solid var(--line);
+      color:#a9b4bd;
+      padding:13px 0;
+      font-size:13px;
+    }
+
+    /* PRINCIPLES */
+    .principles{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .principle{
+      border:1px solid var(--line);
+      padding:34px;
+      border-radius:20px;
+      min-height:240px;
+      background:rgba(255,255,255,.015);
+    }
+    .principle-num{
+      color:#667987;
+      font-size:10px;
+      letter-spacing:.13em;
+      margin-bottom:52px;
+    }
+    .principle p{color:#8998a4;line-height:1.65;font-size:14px}
+
+    /* SAFETY */
+    .safety-panel{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      border:1px solid rgba(124,200,255,.17);
+      border-radius:28px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 100% 0%,rgba(64,159,222,.08),transparent 36%),
+        #08121b;
+    }
+    .safety-copy{padding:50px}
+    .safety-copy p{color:#95a5b1;line-height:1.7}
+    .safety-flow{
+      padding:50px;
+      border-left:1px solid var(--line);
+      display:grid;
+      gap:10px;
+    }
+    .flow-item{
+      display:grid;
+      grid-template-columns:38px 1fr;
+      align-items:center;
+      gap:10px;
+    }
+    .flow-n{
+      width:31px;height:31px;border:1px solid var(--line-strong);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;color:#80b9da;font-size:10px;
+    }
+    .flow-box{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:13px 15px;
+      color:#c5d0d8;
+      font-size:12px;
+      background:rgba(255,255,255,.015);
+    }
+
+    /* APPLICATIONS */
+    .application-strip{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--line);
+      border-left:1px solid var(--line);
+    }
+    .application{
+      min-height:235px;
+      padding:28px;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .application small{
+      display:block;color:#617482;font-size:9px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:62px;
+    }
+    .application strong{display:block;font-size:17px;margin-bottom:11px;font-weight:580}
+    .application p{color:#82919c;font-size:13px;line-height:1.6}
+
+    /* FOUNDER */
+    .founder-card{
+      border:1px solid var(--line);
+      border-radius:30px;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:.82fr 1.18fr;
+      background:linear-gradient(135deg,#0c141e,#080d13);
+    }
+    .founder-visual{
+      min-height:560px;
+      border-right:1px solid var(--line);
+      position:relative;
+      background:
+        radial-gradient(circle at 50% 44%,rgba(102,192,247,.1),transparent 28%),
+        linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+      background-size:auto,50px 50px,50px 50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .founder-monogram{
+      width:230px;height:230px;border:1px solid rgba(218,241,255,.23);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      color:#d8f1ff;font-size:72px;letter-spacing:-.05em;font-weight:380;
+      position:relative;
+    }
+    .founder-monogram::after{
+      content:"FOUNDER / CEO";
+      position:absolute;
+      bottom:-57px;
+      font-size:9px;
+      letter-spacing:.18em;
+      color:#68808e;
+      white-space:nowrap;
+    }
+    .founder-content{
+      padding:64px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .founder-name{
+      font-size:clamp(42px,5vw,72px);
+      letter-spacing:-.055em;
+      line-height:.95;
+      margin:18px 0 10px;
+      font-weight:520;
+    }
+    .founder-role{
+      color:#87b8d3;
+      font-size:12px;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      margin-bottom:36px;
+    }
+    .founder-content p{
+      max-width:660px;
+      color:#9aa8b3;
+      line-height:1.75;
+      font-size:15px;
+    }
+    .founder-quote{
+      margin-top:26px;
+      padding-top:26px;
+      border-top:1px solid var(--line);
+      color:#d5dee5;
+      font-size:19px;
+      line-height:1.55;
+      max-width:650px;
+    }
+
+    /* PARTNER */
+    .partner{
+      background:
+        radial-gradient(circle at 25% 30%,rgba(61,155,215,.08),transparent 25%),
+        #071019;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .partner-grid{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:70px;
+      align-items:start;
+    }
+    .partner-copy p{color:#94a4b0;line-height:1.75;max-width:600px}
+    .partner-types{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:28px;
+    }
+    .partner-types span{
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 13px;
+      color:#aab5bd;
+      font-size:11px;
+    }
+    .partner-form{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      background:rgba(255,255,255,.018);
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{display:grid;gap:8px}
+    .field.full{grid-column:1/-1}
+    label{
+      font-size:10px;
+      letter-spacing:.11em;
+      color:#778997;
+      text-transform:uppercase;
+    }
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#081019;
+      color:#eaf3f8;
+      border-radius:12px;
+      padding:13px 14px;
+      outline:none;
+      transition:.2s;
+    }
+    input:focus,select:focus,textarea:focus{border-color:rgba(124,200,255,.4)}
+    textarea{min-height:130px;resize:vertical}
+    .form-note{margin-top:12px;color:#617381;font-size:10px;line-height:1.5}
+    .form-success{
+      display:none;
+      margin-top:14px;
+      padding:12px 14px;
+      border:1px solid rgba(166,226,191,.18);
+      background:rgba(166,226,191,.045);
+      color:var(--success);
+      border-radius:12px;
+      font-size:12px;
+    }
+
+    /* FINAL CTA */
+    .final-cta{
+      text-align:center;
+      padding:150px 0 130px;
+    }
+    .final-cta h2{max-width:930px;margin:20px auto 26px}
+    .final-cta p{max-width:650px;margin:0 auto 32px;color:#8998a5;line-height:1.65}
+
+    /* FOOTER */
+    footer{
+      border-top:1px solid var(--line);
+      padding:40px 0;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr 1fr;
+      gap:40px;
+      padding-bottom:45px;
+    }
+    .footer-copy{
+      max-width:360px;
+      color:#748391;
+      line-height:1.6;
+      font-size:12px;
+      margin-top:17px;
+    }
+    .footer-col strong{
+      display:block;
+      margin-bottom:16px;
+      font-size:11px;
+      color:#aebbc4;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .footer-col a{
+      display:block;
+      color:#6f7f8b;
+      font-size:12px;
+      margin:10px 0;
+    }
+    .footer-col a:hover{color:#dce7ed}
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:22px;
+      display:flex;
+      justify-content:space-between;
+      color:#53636e;
+      font-size:10px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal{
+      opacity:0;
+      transform:translateY(22px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:none;
+    }
+
+    /* MOBILE */
+    .mobile-toggle{display:none}
+    @media(max-width:980px){
+      .nav{grid-template-columns:1fr auto}
+      .nav-links,.nav-actions{display:none}
+      .mobile-toggle{
+        display:flex;
+        width:40px;height:40px;border-radius:50%;
+        border:1px solid var(--line);background:rgba(255,255,255,.02);color:white;
+        align-items:center;justify-content:center;
+      }
+      .mobile-menu{
+        display:none;
+        position:absolute;
+        top:76px;
+        left:24px;right:24px;
+        border:1px solid var(--line);
+        border-radius:18px;
+        background:#081018;
+        padding:15px;
+      }
+      .mobile-menu.open{display:grid}
+      .mobile-menu a{padding:12px;color:#aab5be;border-bottom:1px solid var(--line)}
+      .mobile-menu a:last-child{border-bottom:0}
+
+      .hero-grid,.statement,.domains-layout,.safety-panel,.founder-card,.partner-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-console{min-height:380px}
+      .console-screen{height:300px}
+      .hero-stats{grid-template-columns:1fr 1fr}
+      .hero-stats div:nth-child(2){border-right:0}
+      .hero-stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .modules-grid{grid-template-columns:1fr 1fr}
+      .sources{grid-template-columns:repeat(3,1fr)}
+      .outputs{grid-template-columns:1fr 1fr}
+      .domain-tabs{position:static;grid-template-columns:repeat(5,1fr);overflow:auto}
+      .domain-tab{justify-content:center}
+      .domain-tab span:last-child{display:none}
+      .principles{grid-template-columns:1fr}
+      .application-strip{grid-template-columns:1fr 1fr}
+      .founder-visual{border-right:0;border-bottom:1px solid var(--line)}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:640px){
+      .shell{width:min(calc(100% - 28px),var(--max))}
+      .section{padding:84px 0}
+      h1{font-size:53px}
+      .hero{padding-top:115px}
+      .hero-grid{gap:42px}
+      .hero-copy{font-size:16px}
+      .hero-console{min-height:340px}
+      .console-screen{height:270px}
+      .telemetry{grid-template-columns:1fr}
+      .telemetry div:nth-child(n+2){display:none}
+      .hero-stats{grid-template-columns:1fr}
+      .hero-stats div{border-right:0;border-bottom:1px solid var(--line)!important}
+      .hero-stats div:last-child{border-bottom:0!important}
+      .modules-grid{grid-template-columns:1fr}
+      .platform-top{flex-direction:column}
+      .sources{grid-template-columns:1fr 1fr}
+      .outputs{grid-template-columns:1fr}
+      .arch-caption{grid-template-columns:1fr}
+      .arch-caption div{border-right:0;border-bottom:1px solid var(--line)}
+      .domain-tabs{grid-template-columns:repeat(5,86px)}
+      .domain-panel{padding:22px}
+      .cap-list{grid-template-columns:1fr}
+      .safety-copy,.safety-flow,.founder-content{padding:30px}
+      .safety-flow{border-left:0;border-top:1px solid var(--line)}
+      .application-strip{grid-template-columns:1fr}
+      .founder-visual{min-height:390px}
+      .partner-grid{gap:36px}
+      .form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .footer-grid{grid-template-columns:1fr}
+      .footer-bottom{flex-direction:column;gap:10px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+      .reveal{opacity:1;transform:none}
+    }
+  </style>
+
+<style>
+  /* QEVRATH V3 — industrial defense / aerospace AI refinement */
+  :root{
+    --bg:#030608;
+    --bg-2:#070b0f;
+    --panel:#080d12;
+    --panel-2:#0b1117;
+    --line:rgba(255,255,255,.085);
+    --line-strong:rgba(255,255,255,.18);
+    --text:#f3f5f7;
+    --muted:#8c98a4;
+    --muted-2:#596672;
+    --blue:#96d7ff;
+    --blue-2:#4b9ac9;
+    --max:1380px;
+    --radius:8px;
+    --radius-sm:6px;
+  }
+
+  body{
+    background:
+      linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.012) 1px, transparent 1px),
+      radial-gradient(circle at 78% 0%, rgba(85,158,205,.07), transparent 26%),
+      #030608;
+    background-size:72px 72px,72px 72px,auto,auto;
+  }
+
+  .shell{width:min(calc(100% - 64px),var(--max))}
+  .section{padding:128px 0}
+  .section-header{max-width:880px}
+
+  h1{
+    font-size:clamp(68px,8.5vw,132px);
+    line-height:.84;
+    letter-spacing:-.075em;
+    font-weight:500;
+    text-transform:uppercase;
+  }
+  h2{
+    font-size:clamp(46px,5vw,78px);
+    line-height:.93;
+    letter-spacing:-.06em;
+    font-weight:520;
+  }
+  h3{font-weight:560}
+
+  .eyebrow{
+    font-size:10px;
+    letter-spacing:.22em;
+    color:#99b7c8;
+  }
+  .eyebrow::before{width:34px}
+
+  .nav-wrap{
+    padding:0;
+    border-bottom:1px solid rgba(255,255,255,.055);
+  }
+  .nav-wrap.scrolled{
+    background:rgba(3,6,8,.88);
+    border-bottom:1px solid rgba(255,255,255,.085);
+  }
+  .nav{
+    min-height:74px;
+    grid-template-columns:240px 1fr 240px;
+  }
+  .brand{gap:14px}
+  .wordmark{
+    letter-spacing:.27em;
+    font-size:14px;
+  }
+
+  .brand-symbol{
+    width:30px;
+    height:30px;
+  }
+  .brand-symbol::before{
+    left:3px;top:3px;width:21px;height:21px;
+    border-radius:1px;
+    border-color:rgba(229,242,249,.72);
+  }
+  .brand-symbol::after{
+    left:8px;top:14px;width:13px;
+  }
+
+  .nav-links{
+    gap:34px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .nav-cta{
+    border-radius:2px;
+    padding:12px 16px;
+    text-transform:uppercase;
+    letter-spacing:.11em;
+    font-size:10px;
+    background:transparent;
+  }
+
+  .hero{
+    min-height:100vh;
+    padding:150px 0 82px;
+  }
+  .hero::before{
+    background-image:
+      linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+    background-size:72px 72px;
+  }
+  .orb{
+    width:760px;height:760px;
+    right:-300px;top:6%;
+    border-color:rgba(137,203,242,.10);
+    box-shadow:none;
+  }
+  .orb::before{inset:15%}
+  .orb::after{inset:33%}
+
+  .hero-grid{
+    grid-template-columns:1.15fr .85fr;
+    gap:90px;
+    align-items:center;
+  }
+  .hero-kicker{
+    font-size:10px;
+    letter-spacing:.23em;
+    margin-bottom:34px;
+  }
+  .hero h1 span{color:#77838d}
+  .hero-copy{
+    max-width:760px;
+    font-size:18px;
+    color:#98a4ae;
+  }
+
+  .btn{
+    border-radius:2px;
+    min-height:46px;
+    padding:0 18px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:10px;
+  }
+  .btn-primary{
+    background:#eff6fa;
+    color:#04090d;
+  }
+  .btn-secondary{
+    background:transparent;
+  }
+
+  .hero-console{
+    border-radius:4px;
+    border-color:rgba(255,255,255,.12);
+    min-height:470px;
+    padding:0;
+    background:#060b10;
+    box-shadow:none;
+  }
+  .console-top{
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    font-size:9px;
+    color:#72808b;
+  }
+  .console-screen{
+    margin:16px;
+    height:390px;
+    border-radius:2px;
+    background:
+      linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.024) 1px, transparent 1px),
+      radial-gradient(circle at center,rgba(87,168,220,.09),transparent 34%),
+      #040a0e;
+    background-size:32px 32px,32px 32px,auto,auto;
+  }
+  .telemetry{
+    inset:auto 10px 10px 10px;
+    gap:4px;
+  }
+  .telemetry div{
+    border-radius:1px;
+    background:rgba(2,6,9,.82);
+  }
+
+  .hero-stats{
+    margin-top:72px;
+  }
+  .hero-stats div{padding:20px 18px}
+  .hero-stats strong{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .hero-stats span{font-size:9px}
+
+  .statement{
+    grid-template-columns:.55fr 1.45fr;
+  }
+  .statement-copy{
+    font-size:clamp(34px,4vw,62px);
+    line-height:1.03;
+    text-transform:uppercase;
+  }
+
+  .platform-frame,
+  .module,
+  .domain-panels,
+  .principle,
+  .safety-panel,
+  .founder-card,
+  .partner-form{
+    border-radius:4px;
+    box-shadow:none;
+  }
+
+  .platform-frame{
+    background:#060b10;
+  }
+  .platform-top{padding:24px}
+  .architecture{padding:30px 24px 24px}
+  .arch-node{
+    border-radius:2px;
+    min-height:68px;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .arch-node.highlight{
+    min-height:118px;
+    border-color:rgba(132,204,246,.24);
+    font-size:28px;
+    font-weight:500;
+    letter-spacing:.16em;
+    background:
+      linear-gradient(90deg,transparent,rgba(88,172,224,.06),transparent),
+      #061019;
+  }
+
+  .modules-grid{
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .module{
+    border:0;
+    border-radius:0;
+    background:#060a0e;
+    min-height:340px;
+    padding:28px;
+  }
+  .module:hover{
+    transform:none;
+    background:#091017;
+  }
+  .module::after{
+    display:none;
+  }
+  .module-index{
+    margin-bottom:74px;
+    font-size:9px;
+  }
+  .module h3{
+    font-size:21px;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  .module-label{
+    font-size:8px;
+    letter-spacing:.14em;
+  }
+  .module p{
+    font-size:13px;
+    color:#7f8d98;
+  }
+
+  .domains-layout{
+    grid-template-columns:.62fr 1.38fr;
+  }
+  .domain-tab{
+    border-radius:2px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:10px;
+    background:#05090d;
+  }
+  .domain-tab.active,.domain-tab:hover{
+    background:#0a1117;
+  }
+  .domain-panel{padding:28px}
+  .domain-visual{
+    border-radius:2px;
+    height:330px;
+  }
+  .domain-panel h3{
+    font-size:39px;
+    text-transform:uppercase;
+  }
+
+  .principles{
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .principle{
+    border:0;
+    border-radius:0;
+    background:#060a0e;
+  }
+
+  .safety-panel{
+    grid-template-columns:1.1fr .9fr;
+    background:#061019;
+  }
+  .flow-box{
+    border-radius:2px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-size:10px;
+  }
+  .flow-n{
+    border-radius:2px;
+  }
+
+  .application-strip{
+    background:var(--line);
+    gap:1px;
+    border:1px solid var(--line);
+  }
+  .application{
+    border:0;
+    background:#060a0e;
+    min-height:250px;
+  }
+  .application strong{
+    text-transform:uppercase;
+    font-size:15px;
+    letter-spacing:.03em;
+  }
+
+  .founder-card{
+    grid-template-columns:.7fr 1.3fr;
+    background:#060a0e;
+  }
+  .founder-visual{
+    min-height:620px;
+    background:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+      radial-gradient(circle at 50% 46%,rgba(100,189,239,.08),transparent 28%),
+      #05090d;
+    background-size:52px 52px,52px 52px,auto,auto;
+  }
+  .founder-monogram{
+    width:210px;height:210px;
+    border-radius:2px;
+    transform:rotate(45deg);
+    font-size:0;
+  }
+  .founder-monogram::before{
+    content:"H";
+    font-size:62px;
+    transform:rotate(-45deg);
+    color:#e8f4fa;
+    font-weight:350;
+  }
+  .founder-monogram::after{
+    bottom:-72px;
+    transform:rotate(-45deg);
+    color:#617684;
+  }
+  .founder-name{
+    text-transform:uppercase;
+    font-size:clamp(48px,5.2vw,82px);
+  }
+
+  .partner{
+    background:
+      linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px),
+      #050a0e;
+    background-size:72px 72px;
+  }
+  .partner-form{
+    background:#060b0f;
+  }
+  input,select,textarea{
+    border-radius:2px;
+    background:#04080c;
+  }
+
+  footer{
+    background:#030608;
+  }
+
+  @media(max-width:980px){
+    .nav{grid-template-columns:1fr auto}
+    .hero-grid{grid-template-columns:1fr}
+    .statement,.domains-layout,.safety-panel,.founder-card,.partner-grid{grid-template-columns:1fr}
+    .founder-visual{min-height:460px}
+  }
+</style>
+
+
+<style>
+  /* Partner / Investor contact */
+  .partner-contact-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    border:1px solid var(--line);
+    background:#060b0f;
+    margin-bottom:1px;
+  }
+  .partner-contact-main{
+    padding:48px;
+    border-right:1px solid var(--line);
+  }
+  .contact-label{
+    display:block;
+    color:#6d7e89;
+    font-size:9px;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .contact-email{
+    display:inline-block;
+    font-size:clamp(30px,3.7vw,58px);
+    letter-spacing:-.045em;
+    line-height:1;
+    color:#edf7fc;
+    border-bottom:1px solid rgba(150,215,255,.24);
+    padding-bottom:8px;
+    transition:.2s ease;
+  }
+  .contact-email:hover{
+    color:#a8dcfb;
+    border-color:rgba(150,215,255,.7);
+  }
+  .partner-contact-main p{
+    max-width:720px;
+    margin:27px 0 0;
+    color:#87949e;
+    line-height:1.72;
+    font-size:14px;
+  }
+  .partner-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:30px;
+  }
+  .partner-contact-meta{display:grid}
+  .meta-row{
+    min-height:104px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:22px 26px;
+    border-bottom:1px solid var(--line);
+  }
+  .meta-row:last-child{border-bottom:0}
+  .meta-row span{
+    color:#5f707c;
+    font-size:8px;
+    letter-spacing:.16em;
+    margin-bottom:8px;
+  }
+  .meta-row strong{
+    color:#cad4da;
+    font-size:13px;
+    font-weight:520;
+  }
+
+  .inquiry-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .inquiry-card{
+    min-height:280px;
+    padding:28px;
+    background:#060a0e;
+  }
+  .inquiry-card .module-index{margin-bottom:58px}
+  .inquiry-card h3{
+    text-transform:uppercase;
+    font-size:18px;
+    letter-spacing:.02em;
+  }
+  .inquiry-card p{
+    color:#7d8b95;
+    font-size:13px;
+    line-height:1.65;
+    margin-bottom:0;
+  }
+
+  .contact-note{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+    border:1px solid var(--line);
+    border-top:0;
+    padding:20px 24px;
+    background:#05090d;
+  }
+  .contact-note span{
+    color:#596a76;
+    font-size:8px;
+    letter-spacing:.16em;
+  }
+  .contact-note p{
+    margin:0;
+    color:#87949f;
+    font-size:12px;
+  }
+  .contact-note a{color:#cdeefe}
+
+  @media(max-width:980px){
+    .partner-contact-grid{grid-template-columns:1fr}
+    .partner-contact-main{border-right:0;border-bottom:1px solid var(--line)}
+    .inquiry-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:640px){
+    .partner-contact-main{padding:28px}
+    .inquiry-grid{grid-template-columns:1fr}
+    .contact-note{align-items:flex-start;flex-direction:column;gap:10px}
+  }
+</style>
+
+</head>
+
+<body>
+  <!-- Navigation -->
+  <div class="nav-wrap" id="navWrap">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="QEVRATH home">
+        <span class="brand-symbol" aria-hidden="true">
+          <svg viewBox="0 0 36 36" role="img" aria-label="QEVRATH mark">
+            <circle class="q-ring" cx="18" cy="18" r="11.4"></circle>
+            <path class="q-tail" d="M23.7 23.5 L29.4 29.1"></path>
+            <path class="q-axis" d="M10.6 18 H25.4"></path>
+          </svg>
+        </span>
+        <span class="wordmark">Q<span class="e-mark" aria-label="E"><i></i><i></i><i></i></span>VRATH</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#platform">AI System</a>
+        <a href="#systems">Systems</a>
+        <a href="#domains">Domains</a>
+        <a href="#responsible-ai">Responsible AI</a>
+        <a href="#company">Company</a>
+      </div>
+
+      <div class="nav-actions">
+        <a class="nav-cta" href="#partner">Partner / Invest →</a>
+      </div>
+
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">☰</button>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#platform">AI System</a>
+        <a href="#systems">Systems</a>
+        <a href="#domains">Domains</a>
+        <a href="#responsible-ai">Responsible AI</a>
+        <a href="#company">Company</a>
+        <a href="#partner">Partner / Invest</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" id="top">
+    <div class="orb" aria-hidden="true"></div>
+
+    <div class="shell">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-kicker"><span class="status-dot"></span> National Defense AI</div>
+
+          <h1>
+            Intelligence for
+            <span>every domain.</span>
+          </h1>
+
+          <p class="hero-copy">
+            QEVRATH is an advanced national-defense artificial intelligence system built to unify autonomous navigation,
+            multi-source intelligence, cyber defense, command operations, mission simulation and authorized
+            defensive systems across air, land, sea, space and digital environments.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#platform">Explore QEVRATH AI →</a>
+            <a class="btn btn-secondary" href="#partner">Partner / Invest</a>
+          </div>
+        </div>
+
+        <div class="hero-console" aria-label="Conceptual mission awareness interface">
+          <div class="console-top">
+            <span>QEVRATH / CORE</span>
+            <span>Unified Awareness Layer</span>
+          </div>
+          <div class="console-screen">
+            <div class="radar-ring r1"></div>
+            <div class="radar-ring r2"></div>
+            <div class="radar-ring r3"></div>
+            <div class="radar-line"></div>
+            <span class="target t1"></span>
+            <span class="target t2"></span>
+            <span class="target t3"></span>
+
+            <div class="telemetry">
+              <div><small>Domain Fusion</small><strong>AIR / SPACE / CYBER</strong></div>
+              <div><small>Decision Layer</small><strong>HUMAN AUTHORIZED</strong></div>
+              <div><small>System State</small><strong>MISSION READY</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div><strong>5 domains</strong><span>Unified operational layer</span></div>
+        <div><strong>12 systems</strong><span>Specialized AI modules</span></div>
+        <div><strong>Human control</strong><span>Authorization by design</span></div>
+        <div><strong>Mission-first</strong><span>Resilient architecture</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Statement -->
+  <section class="section">
+    <div class="shell statement reveal">
+      <div class="eyebrow">Mission</div>
+      <div>
+        <div class="statement-copy">
+          Build the intelligence system that helps nations
+          <em>see earlier, understand faster and coordinate with greater precision.</em>
+        </div>
+        <div class="statement-side">
+          QEVRATH is conceived as a unified defense AI—not a conventional software product and not a single general-purpose model. Specialized systems share a secure
+          intelligence backbone while preserving mission boundaries, authorization controls and auditability.
+          The result is one architecture that can support navigation, ISR, command, cyber, simulation,
+          logistics and defensive operations without forcing every mission into the same tool.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform -->
+  <section class="section" id="platform">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">QEVRATH AI Core</span>
+        <h2>One AI.<br/>Every defense domain.</h2>
+        <p class="lead">
+          QEVRATH CORE is the central intelligence engine. It ingests information from distributed sensors and systems, creates a continuously updated
+          operational picture and routes mission-relevant intelligence to the right authorized application.
+        </p>
+      </div>
+
+      <div class="platform-frame reveal">
+        <div class="platform-top">
+          <div>
+            <span class="eyebrow">Reference Architecture</span>
+          </div>
+          <p>
+            A high-level AI architecture for secure data fusion, AI inference, predictive intelligence,
+            decision support and controlled deployment across heterogeneous defense environments.
+          </p>
+        </div>
+
+        <div class="architecture">
+          <div class="arch-row sources">
+            <div class="arch-node">RADAR</div>
+            <div class="arch-node">SATELLITES</div>
+            <div class="arch-node">EO / IR</div>
+            <div class="arch-node">UNMANNED SYSTEMS</div>
+            <div class="arch-node">CYBER TELEMETRY</div>
+            <div class="arch-node">MISSION DATA</div>
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <div class="arch-row core">
+            <div class="arch-node highlight">QEVRATH CORE</div>
+          </div>
+
+          <div class="arch-arrow">↓</div>
+
+          <div class="arch-row outputs">
+            <div class="arch-node">NAVIGATION & AUTONOMY</div>
+            <div class="arch-node">INTELLIGENCE & PREDICTION</div>
+            <div class="arch-node">COMMAND & DECISION SUPPORT</div>
+            <div class="arch-node">AUTHORIZED DEFENSE SYSTEMS</div>
+          </div>
+
+          <div class="arch-caption">
+            <div>
+              <small>01 / Understand</small>
+              <span>Fuse distributed sensor and mission data into a consistent operational picture.</span>
+            </div>
+            <div>
+              <small>02 / Reason</small>
+              <span>Classify, forecast, compare courses of action and surface uncertainty to operators.</span>
+            </div>
+            <div>
+              <small>03 / Coordinate</small>
+              <span>Route authorized decisions to mission systems with policy, permissions and audit controls.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Systems -->
+  <section class="section" id="systems">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">QEVRATH AI Systems</span>
+        <h2>Twelve AI systems.<br/>One mission intelligence core.</h2>
+        <p class="lead">
+          Each QEVRATH AI system is designed around a distinct mission function while sharing common security,
+          data and authorization infrastructure.
+        </p>
+      </div>
+
+      <div class="modules-grid">
+        <article class="module reveal">
+          <div class="module-index">QVR / 01</div>
+          <h3>QEVRATH NAV</h3>
+          <div class="module-label">Aerospace & Autonomous Navigation</div>
+          <p>Sensor-fused navigation intelligence, route optimization, resilient positioning, anomaly awareness, mission planning and autonomous mobility support for aerospace and unmanned platforms.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 02</div>
+          <h3>QEVRATH SENTINEL</h3>
+          <div class="module-label">Threat Detection & Early Warning</div>
+          <p>Multi-source detection, classification, confidence scoring, change recognition, movement forecasting and priority assessment for defensive awareness.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 03</div>
+          <h3>QEVRATH C2</h3>
+          <div class="module-label">AI Command & Control</div>
+          <p>Operational picture generation, mission summaries, resource awareness, risk comparison, coordination support and decision assistance for authorized command environments.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 04</div>
+          <h3>QEVRATH AUTONOMY</h3>
+          <div class="module-label">Unmanned Systems Intelligence</div>
+          <p>Shared autonomy for aerial, ground, surface and subsurface platforms with mission constraints, health monitoring, navigation support and coordinated tasking.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 05</div>
+          <h3>QEVRATH AEGIS</h3>
+          <div class="module-label">Defensive Response Intelligence</div>
+          <p>Threat prioritization, defensive coordination, response comparison, countermeasure decision support and human authorization workflows for defensive missions.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 06</div>
+          <h3>QEVRATH CYBER</h3>
+          <div class="module-label">Autonomous Cyber Defense</div>
+          <p>Behavioral anomaly detection, threat hunting, intrusion analysis, automated containment support, network resilience and protection for defense and critical infrastructure networks.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 07</div>
+          <h3>QEVRATH ORBIT</h3>
+          <div class="module-label">Space Intelligence</div>
+          <p>Orbital awareness, satellite health monitoring, conjunction risk prediction, communications resilience, anomaly detection and space-domain situational awareness.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 08</div>
+          <h3>QEVRATH SPECTRA</h3>
+          <div class="module-label">Signal & Spectrum Intelligence</div>
+          <p>RF environment awareness, signal classification, spectrum monitoring, communications anomaly analysis and electronic-threat awareness.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 09</div>
+          <h3>QEVRATH VISION</h3>
+          <div class="module-label">Defense Computer Vision</div>
+          <p>AI-assisted interpretation of satellite, aerial, thermal and reconnaissance imagery for object detection, terrain understanding, change detection and damage assessment.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 10</div>
+          <h3>QEVRATH FORGE</h3>
+          <div class="module-label">Simulation & Digital Twin</div>
+          <p>Mission rehearsal, scenario generation, digital environments, system evaluation, failure testing and controlled validation before deployment.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 11</div>
+          <h3>QEVRATH LOGOS</h3>
+          <div class="module-label">Logistics & Readiness Intelligence</div>
+          <p>Predictive maintenance, fleet health, supply planning, mission-readiness forecasting, resource allocation and logistics decision support.</p>
+        </article>
+
+        <article class="module reveal">
+          <div class="module-index">QVR / 12</div>
+          <h3>QEVRATH SHIELD</h3>
+          <div class="module-label">Safety, Policy & Authorization</div>
+          <p>Identity, access controls, mission policy, permission boundaries, audit logging, fail-safe states, model monitoring and human authorization across QEVRATH systems.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Domains -->
+  <section class="section" id="domains">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">Multi-Domain</span>
+        <h2>Air. Land. Sea.<br/>Space. Cyber.</h2>
+        <p class="lead">
+          QEVRATH is designed around interoperable mission intelligence, allowing specialized systems to operate
+          independently while contributing to a shared cross-domain picture.
+        </p>
+      </div>
+
+      <div class="domains-layout reveal">
+        <div class="domain-tabs" role="tablist">
+          <button class="domain-tab active" data-domain="air"><span>AIR</span><span>01</span></button>
+          <button class="domain-tab" data-domain="land"><span>LAND</span><span>02</span></button>
+          <button class="domain-tab" data-domain="sea"><span>SEA</span><span>03</span></button>
+          <button class="domain-tab" data-domain="space"><span>SPACE</span><span>04</span></button>
+          <button class="domain-tab" data-domain="cyber"><span>CYBER</span><span>05</span></button>
+        </div>
+
+        <div class="domain-panels">
+          <div class="domain-panel active" id="domain-air">
+            <div class="domain-visual"><div class="domain-code">DOMAIN / AIR
+STATUS / CONNECTED
+INTELLIGENCE / FUSED
+AUTHORIZATION / CONTROLLED</div></div>
+            <h3>Air Intelligence</h3>
+            <p>AI infrastructure for aerospace navigation, unmanned aviation, ISR processing, mission awareness and coordinated defensive operations.</p>
+            <div class="cap-list">
+              <span>Aerospace navigation intelligence</span>
+              <span>Unmanned aerial autonomy</span>
+              <span>Airspace situational awareness</span>
+              <span>ISR data fusion</span>
+              <span>Mission planning support</span>
+              <span>Defensive coordination</span>
+            </div>
+          </div>
+
+          <div class="domain-panel" id="domain-land">
+            <div class="domain-visual"><div class="domain-code">DOMAIN / LAND
+STATUS / CONNECTED
+READINESS / ACTIVE
+MISSION DATA / FUSED</div></div>
+            <h3>Land Intelligence</h3>
+            <p>Operational intelligence for ground vehicles, reconnaissance systems, infrastructure defense, logistics and mission support.</p>
+            <div class="cap-list">
+              <span>Autonomous ground mobility</span>
+              <span>Reconnaissance intelligence</span>
+              <span>Infrastructure monitoring</span>
+              <span>Route planning</span>
+              <span>Readiness forecasting</span>
+              <span>Mission coordination</span>
+            </div>
+          </div>
+
+          <div class="domain-panel" id="domain-sea">
+            <div class="domain-visual"><div class="domain-code">DOMAIN / SEA
+STATUS / CONNECTED
+MARITIME PICTURE / FUSED
+AUTONOMY / AVAILABLE</div></div>
+            <h3>Maritime Intelligence</h3>
+            <p>AI-enabled awareness for maritime surveillance, unmanned surface and subsurface systems, navigation and fleet coordination.</p>
+            <div class="cap-list">
+              <span>Maritime domain awareness</span>
+              <span>Unmanned vessel autonomy</span>
+              <span>Navigation support</span>
+              <span>Sensor fusion</span>
+              <span>Fleet health intelligence</span>
+              <span>Mission coordination</span>
+            </div>
+          </div>
+
+          <div class="domain-panel" id="domain-space">
+            <div class="domain-visual"><div class="domain-code">DOMAIN / SPACE
+STATUS / CONNECTED
+ORBITAL PICTURE / ACTIVE
+COMMS / RESILIENT</div></div>
+            <h3>Space Intelligence</h3>
+            <p>Space-domain intelligence supporting orbital awareness, launch and aerospace mission planning, satellite health and resilient communications.</p>
+            <div class="cap-list">
+              <span>Orbital awareness</span>
+              <span>Aerospace mission planning</span>
+              <span>Satellite anomaly detection</span>
+              <span>Conjunction-risk prediction</span>
+              <span>Ground-station intelligence</span>
+              <span>Communications resilience</span>
+            </div>
+          </div>
+
+          <div class="domain-panel" id="domain-cyber">
+            <div class="domain-visual"><div class="domain-code">DOMAIN / CYBER
+STATUS / CONNECTED
+NETWORK RISK / MONITORED
+ZERO TRUST / ENFORCED</div></div>
+            <h3>Cyber Intelligence</h3>
+            <p>AI-assisted protection for defense networks and critical infrastructure using continuous monitoring, behavioral analysis and resilient response workflows.</p>
+            <div class="cap-list">
+              <span>Intrusion detection</span>
+              <span>Behavioral analytics</span>
+              <span>Threat hunting</span>
+              <span>Network resilience</span>
+              <span>Containment support</span>
+              <span>Zero-trust monitoring</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="section">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">Engineering Principles</span>
+        <h2>Built for environments<br/>where failure matters.</h2>
+      </div>
+
+      <div class="principles">
+        <article class="principle reveal">
+          <div class="principle-num">01 / RESILIENCE</div>
+          <h3>Operate through disruption.</h3>
+          <p>Mission systems should degrade predictably, preserve critical functions and recover safely when connectivity, positioning or compute availability changes.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-num">02 / MODULARITY</div>
+          <h3>One core. Mission-specific systems.</h3>
+          <p>QEVRATH separates shared infrastructure from mission applications so capabilities can evolve independently without collapsing into one monolithic model.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-num">03 / TRACEABILITY</div>
+          <h3>Decisions need context.</h3>
+          <p>Operators should understand data provenance, model confidence, authorization state and the sequence of decisions that produced a mission recommendation.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-num">04 / INTEROPERABILITY</div>
+          <h3>Connect existing systems.</h3>
+          <p>The QEVRATH architecture prioritizes integration with heterogeneous sensors, command environments and mission systems instead of assuming a clean-sheet defense stack.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Responsible AI -->
+  <section class="section" id="responsible-ai">
+    <div class="shell">
+      <div class="safety-panel reveal">
+        <div class="safety-copy">
+          <span class="eyebrow">QEVRATH Shield</span>
+          <h2>Human authority<br/>by design.</h2>
+          <p>
+            QEVRATH's AI architecture separates sensing, reasoning, recommendation and authorization.
+            High-consequence actions are governed by mission policy, access controls, auditability and
+            explicit human authority.
+          </p>
+          <p>
+            The architecture is designed to support defensive AI while preserving clear boundaries around
+            who can authorize what, under which mission conditions, with what evidence and with what fallback state.
+          </p>
+        </div>
+
+        <div class="safety-flow">
+          <div class="flow-item"><div class="flow-n">01</div><div class="flow-box">Identity & access verification</div></div>
+          <div class="flow-item"><div class="flow-n">02</div><div class="flow-box">Mission policy & permission boundary</div></div>
+          <div class="flow-item"><div class="flow-n">03</div><div class="flow-box">AI analysis & recommendation</div></div>
+          <div class="flow-item"><div class="flow-n">04</div><div class="flow-box">Operator review & human authorization</div></div>
+          <div class="flow-item"><div class="flow-n">05</div><div class="flow-box">Controlled execution through authorized system</div></div>
+          <div class="flow-item"><div class="flow-n">06</div><div class="flow-box">Audit, monitoring & post-mission review</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Applications -->
+  <section class="section">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">Operational Applications</span>
+        <h2>From sensing<br/>to readiness.</h2>
+      </div>
+
+      <div class="application-strip reveal">
+        <div class="application">
+          <small>01</small>
+          <strong>Persistent Awareness</strong>
+          <p>Combine distributed sensor streams into a coherent, continuously refreshed operational picture.</p>
+        </div>
+        <div class="application">
+          <small>02</small>
+          <strong>Mission Intelligence</strong>
+          <p>Surface patterns, anomalies, uncertainty and forecasted changes that may matter to operators.</p>
+        </div>
+        <div class="application">
+          <small>03</small>
+          <strong>Autonomous Navigation</strong>
+          <p>Support resilient mobility and mission planning for aerospace and unmanned systems.</p>
+        </div>
+        <div class="application">
+          <small>04</small>
+          <strong>Command Support</strong>
+          <p>Help teams compare options, coordinate assets and maintain shared situational context.</p>
+        </div>
+        <div class="application">
+          <small>05</small>
+          <strong>Cyber Defense</strong>
+          <p>Detect behavioral anomalies, prioritize incidents and support resilient containment workflows.</p>
+        </div>
+        <div class="application">
+          <small>06</small>
+          <strong>Space Operations</strong>
+          <p>Support orbital awareness, satellite health, communications resilience and aerospace mission context.</p>
+        </div>
+        <div class="application">
+          <small>07</small>
+          <strong>Simulation</strong>
+          <p>Evaluate systems and mission concepts in controlled digital environments before field deployment.</p>
+        </div>
+        <div class="application">
+          <small>08</small>
+          <strong>Logistics & Readiness</strong>
+          <p>Forecast maintenance needs, resource constraints and platform readiness across complex fleets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="section" id="company">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">Leadership</span>
+        <h2>Building QEVRATH.</h2>
+      </div>
+
+      <div class="founder-card reveal">
+        <div class="founder-visual">
+          <div class="founder-monogram">H</div>
+        </div>
+
+        <div class="founder-content">
+          <span class="eyebrow">Founder & CEO</span>
+          <div class="founder-name">Haryati</div>
+          <div class="founder-role">Founder & Chief Executive Officer · QEVRATH</div>
+          <p>
+            Haryati founded QEVRATH around a long-term vision for defense intelligence: create a unified defense AI capable of bringing together autonomous navigation, multi-domain awareness,
+            cyber defense, command intelligence, simulation and mission readiness within one coherent intelligence system.
+          </p>
+          <p>
+            QEVRATH is being developed around the belief that advanced defense AI should combine technical
+            capability with disciplined architecture, human authority, operational resilience and clear mission boundaries.
+          </p>
+          <div class="founder-quote">
+            “The objective is not to build one AI for one mission. It is to build the intelligence infrastructure
+            that can support many missions, across every domain.”
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner / Investor -->
+  <section class="section partner" id="partner">
+    <div class="shell">
+      <div class="section-header reveal">
+        <span class="eyebrow">Partner / Invest</span>
+        <h2>Work with QEVRATH.</h2>
+        <p class="lead">
+          QEVRATH welcomes strategic conversations with governments, defense and aerospace organizations,
+          technology partners, research institutions and long-term investors aligned with the development
+          of advanced national-defense AI.
+        </p>
+      </div>
+
+      <div class="partner-contact-grid reveal">
+        <div class="partner-contact-main">
+          <span class="contact-label">General Contact</span>
+          <a class="contact-email" href="mailto:contact@qevrath.com">contact@qevrath.com</a>
+          <p>
+            Use this address for partnership, investment, research, integration and strategic inquiries.
+            Include your organization, role, area of interest and a short description of the proposed collaboration.
+          </p>
+
+          <div class="partner-actions">
+            <a class="btn btn-primary" href="mailto:contact@qevrath.com?subject=QEVRATH%20Partnership%20Inquiry">Partnership inquiry →</a>
+            <a class="btn btn-secondary" href="mailto:contact@qevrath.com?subject=QEVRATH%20Investment%20Inquiry">Investment inquiry →</a>
+          </div>
+        </div>
+
+        <div class="partner-contact-meta">
+          <div class="meta-row">
+            <span>PARTNERSHIPS</span>
+            <strong>Strategic & Technical</strong>
+          </div>
+          <div class="meta-row">
+            <span>INVESTMENT</span>
+            <strong>Long-Term Strategic Capital</strong>
+          </div>
+          <div class="meta-row">
+            <span>RESEARCH</span>
+            <strong>Applied AI & Defense Systems</strong>
+          </div>
+          <div class="meta-row">
+            <span>INTEGRATION</span>
+            <strong>Aerospace, Cyber & Autonomy</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="inquiry-grid">
+        <article class="inquiry-card reveal">
+          <div class="module-index">01 / GOVERNMENT</div>
+          <h3>Government & Defense</h3>
+          <p>
+            National-security programs, public-sector collaboration, defense AI evaluation,
+            mission requirements, secure deployment discussions and strategic capability development.
+          </p>
+        </article>
+
+        <article class="inquiry-card reveal">
+          <div class="module-index">02 / INVESTMENT</div>
+          <h3>Strategic Investment</h3>
+          <p>
+            Long-term capital, strategic investors, institutional relationships and investors
+            with relevant experience across AI, aerospace, defense, cyber or advanced engineering.
+          </p>
+        </article>
+
+        <article class="inquiry-card reveal">
+          <div class="module-index">03 / AEROSPACE</div>
+          <h3>Aerospace & Autonomy</h3>
+          <p>
+            Collaboration involving aerospace navigation, autonomous systems, unmanned systems,
+            mission intelligence, sensing, simulation and resilient computing.
+          </p>
+        </article>
+
+        <article class="inquiry-card reveal">
+          <div class="module-index">04 / TECHNOLOGY</div>
+          <h3>Technology Integration</h3>
+          <p>
+            Secure infrastructure, compute, sensors, communications, data systems,
+            command environments and integration with existing mission systems.
+          </p>
+        </article>
+
+        <article class="inquiry-card reveal">
+          <div class="module-index">05 / CYBER</div>
+          <h3>Cyber & Infrastructure</h3>
+          <p>
+            Defense cyber security, critical infrastructure resilience, network intelligence,
+            secure architecture and advanced threat-detection collaboration.
+          </p>
+        </article>
+
+        <article class="inquiry-card reveal">
+          <div class="module-index">06 / RESEARCH</div>
+          <h3>Research & Institutions</h3>
+          <p>
+            Universities, laboratories and research organizations interested in applied AI,
+            autonomy, aerospace, simulation, safety, verification and national-security technologies.
+          </p>
+        </article>
+      </div>
+
+      <div class="contact-note reveal">
+        <span>QEVRATH CONTACT</span>
+        <p>
+          For all qualified partnership and investment inquiries, contact
+          <a href="mailto:contact@qevrath.com">contact@qevrath.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+<!-- Final CTA -->
+  <section class="final-cta">
+    <div class="shell reveal">
+      <span class="eyebrow">QEVRATH</span>
+      <h2>AI for every defense domain.</h2>
+      <p>
+        A unified defense AI for autonomous systems, aerospace, intelligence, cyber defense,
+        command operations, simulation and national-security infrastructure.
+      </p>
+      <a class="btn btn-primary" href="#partner">Contact QEVRATH →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="shell">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="#top">
+            <span class="brand-symbol" aria-hidden="true">
+          <svg viewBox="0 0 36 36" role="img" aria-label="QEVRATH mark">
+            <circle class="q-ring" cx="18" cy="18" r="11.4"></circle>
+            <path class="q-tail" d="M23.7 23.5 L29.4 29.1"></path>
+            <path class="q-axis" d="M10.6 18 H25.4"></path>
+          </svg>
+        </span>
+            <span class="wordmark">Q<span class="e-mark"><i></i><i></i><i></i></span>VRATH</span>
+          </a>
+          <p class="footer-copy">
+            National-defense AI for intelligence, autonomous systems, aerospace, cyber, command and mission operations.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <strong>AI System</strong>
+          <a href="#platform">QEVRATH AI Core</a>
+          <a href="#systems">Systems</a>
+          <a href="#domains">Domains</a>
+          <a href="#responsible-ai">Responsible AI</a>
+        </div>
+
+        <div class="footer-col">
+          <strong>Company</strong>
+          <a href="#company">Founder & CEO</a>
+          <a href="#partner">Partner / Invest</a>
+          <a href="#company">Mission</a>
+          <a href="mailto:contact@qevrath.com">contact@qevrath.com</a>
+        </div>
+
+        <div class="footer-col">
+          <strong>Focus</strong>
+          <a href="#domains">Air</a>
+          <a href="#domains">Land</a>
+          <a href="#domains">Sea</a>
+          <a href="#domains">Space</a>
+          <a href="#domains">Cyber</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 QEVRATH. Concept website.</span>
+        <span>National Defense AI</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const navWrap = document.getElementById('navWrap');
+    window.addEventListener('scroll', () => {
+      navWrap.classList.toggle('scrolled', window.scrollY > 24);
+    });
+
+    // Mobile menu
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileToggle.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+    // Domain tabs
+    const tabs = document.querySelectorAll('.domain-tab');
+    const panels = document.querySelectorAll('.domain-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('domain-' + tab.dataset.domain).classList.add('active');
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.08});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
